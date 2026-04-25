@@ -24,13 +24,17 @@ def signup():
             address=input("Enter City:")
 
             while True:
-                balance=float(input("Enter Diposit Ammount:"))
-                if balance>0:
-                    balance=Decimal(balance)
-                    break
-                else:
-                    print("Invelid Deposit Amount")
-                    print("Enter Velid Amount")
+                try:
+                    balance=float(input("Enter Diposit Ammount:"))
+                    if balance>0:
+                        balance=Decimal(balance)
+                        break
+                    else:
+                        print("Invelid Deposit Amount")
+                        print("Enter Velid Amount")
+
+                except ValueError:
+                    print("Invelid Deposit")
 
             while True:
                 secure_pin=input("Enter Six digit Secure pin(This Usefull For Account Security):")
