@@ -168,12 +168,17 @@ while True:
                                 deleteaccount(username)
 
 
+                            case 7:
+                                #TRANSACTION HISTORY
+                                b_obj.transactionhistory()
+
+
                             case _:
-                                raise InputnotMatchError("Input not match\n\n1.BALANCE\n2.DEPOSIT\n3.WIDROW\n4.TRANSFER FUND\n5.ACCOUNT DETAILS\n6.DELETE ACCOUNT\n")
+                                raise InputnotMatchError("1. BALANCE\n2. DEPOSIT\n3. WITHDRAW\n4. TRANSFER FUNDS\n5. ACCOUNT DETAILS\n6. DELETE ACCOUNT\n7. TRANSACTION HISTORY\n")
                             
                     
                     except ValueError as ve:
-                        print("Invelid input\n\n1.BALANCE\n2.DEPOSIT\n3.WIDROW\n4.TRANSFER FUND\n5.ACCOUNT DETAILS\n6.DELETE ACCOUNT\n")
+                        print("1. BALANCE\n2. DEPOSIT\n3. WITHDRAW\n4. TRANSFER FUNDS\n5. ACCOUNT DETAILS\n6. DELETE ACCOUNT\n7. TRANSACTION HISTORY\n")
                     
                     except InputnotMatchError as ipe:
                         print(ipe)

@@ -120,3 +120,14 @@ class Bank:
         print("AGE:",customer_details[0][3])
         print("ADDRESS:",customer_details[0][4])
         print("BALANCE:",customer_details[0][5])
+
+    #TRANSACTION HISTORY
+    def transactionhistory(self):
+        cur.execute(f"SELECT * FROM {self.__username}_ebook")
+        t_history=cur.fetchall()
+        list_dataheader=["Date:","Time:","Particular:","Diposit","Withdraw:","Balance:"]
+        for th in t_history:
+            for real_th,ld in zip(th,list_dataheader):#zip function is use to combine two itreables
+                real_th=str(real_th)
+                print(ld,real_th)
+            print()
