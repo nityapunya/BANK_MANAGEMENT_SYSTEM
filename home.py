@@ -5,7 +5,7 @@ print()
 from database import *
 from register import *
 from bank import *
-from decimal import Decimal
+from decimal import *
 
 class InputnotMatchError(Exception):
     def __init__(self,msg="Invelid input"):
@@ -60,8 +60,13 @@ while True:
                                 try:
                                     secure_pin=int(input("Enter Secure Pin:"))
                                     if temp_secure_pin==secure_pin:
-                                        amount=Decimal(input("Enter Deposit Amount:"))
-                                        b_obj.deposit(temp_account_number,amount)
+
+                                        try:
+                                            amount=Decimal(input("Enter Deposit Amount:"))
+                                            b_obj.deposit(temp_account_number,amount)
+                                        except InvalidOperation:
+                                            print("Invelid Deposit Amount")
+
                                     else:
                                         print("Incorrect Secure Pin\nEnter Your Six digit Secure Pin")
                                 
@@ -74,8 +79,13 @@ while True:
                                 try:
                                     secure_pin=int(input("Enter Secure Pin:"))
                                     if temp_secure_pin==secure_pin:
-                                        amount=Decimal(input("Enter Amount:"))
-                                        b_obj.widrow(temp_account_number,amount)
+
+                                        try:
+                                            amount=Decimal(input("Enter Amount:"))
+                                            b_obj.widrow(temp_account_number,amount)
+                                        except InvalidOperation:
+                                            print("Invelid Withdraw Amount")
+
                                     else:
                                         print("Incorrect Secure Pin\nEnter Your Six digit Secure Pin")
                                 except ValueError:
@@ -116,7 +126,7 @@ while True:
                                                                 except ValueError:
                                                                     print("Incorrect Secure Pin\nEnter Your Six digit Secure Pin")
 
-                                                            except ValueError:
+                                                            except InvalidOperation:
                                                                 print("Invelid Amount")
 
                        
