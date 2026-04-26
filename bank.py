@@ -65,7 +65,7 @@ class Bank:
                 print("Insufficient Balance")
 
         else:
-            print("Invelid Deposit Amount")
+            print("Invelid Withdraw Amount")
     
     #USER TRANSFER MONEY METHOD TO ANOTHER USER
     def transferfund(self,receiver_account_number,receiver_name,sender_account_number,amount):
