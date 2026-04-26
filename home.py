@@ -101,50 +101,53 @@ while True:
 
                                         try:
                                             reciver_account_number=int(input("Enter Reciver Account Number:"))
-                                            cur.execute(f"SELECT account_number FROM customers WHERE account_number='{reciver_account_number}';")
-                                            temp=cur.fetchall()
-                                            if temp:
-                                                cur.execute(f"SELECT name FROM customers WHERE account_number='{reciver_account_number}';")
-                                                receiver_name=cur.fetchall()[0][0]
-                                                print("Receiver Name:",receiver_name)
+                                            if temp_account_number!=reciver_account_number:
+                                                cur.execute(f"SELECT account_number FROM customers WHERE account_number='{reciver_account_number}';")
+                                                temp=cur.fetchall()
+                                                if temp:
+                                                    cur.execute(f"SELECT name FROM customers WHERE account_number='{reciver_account_number}';")
+                                                    receiver_name=cur.fetchall()[0][0]
+                                                    print("Receiver Name:",receiver_name)
 
-                                                try:
-                                                    choice=int(input("1.Confirm\n2.Cancel\n"))
-                                                    match choice:
-                                                        case 1:
-
-                                                            try:
-                                                                amount=Decimal(input("Enter Amount:"))
+                                                    try:
+                                                        choice=int(input("1.Confirm\n2.Cancel\n"))
+                                                        match choice:
+                                                            case 1:
 
                                                                 try:
-                                                                    secure_pin=int(input("Enter Secure Pin:"))
-                                                                    if temp_secure_pin==secure_pin:
-                                                                        b_obj.transferfund(reciver_account_number,receiver_name,temp_account_number,amount)
-                                                                    else:
+                                                                    amount=Decimal(input("Enter Amount:"))
+
+                                                                    try:
+                                                                        secure_pin=int(input("Enter Secure Pin:"))
+                                                                        if temp_secure_pin==secure_pin:
+                                                                            b_obj.transferfund(reciver_account_number,receiver_name,temp_account_number,amount)
+                                                                        else:
+                                                                            print("Incorrect Secure Pin\nEnter Your Six digit Secure Pin")
+                                                                    
+                                                                    except ValueError:
                                                                         print("Incorrect Secure Pin\nEnter Your Six digit Secure Pin")
-                                                                
-                                                                except ValueError:
-                                                                    print("Incorrect Secure Pin\nEnter Your Six digit Secure Pin")
 
-                                                            except InvalidOperation:
-                                                                print("Invelid Amount")
+                                                                except InvalidOperation:
+                                                                    print("Invelid Amount")
 
-                       
-                                                        case 2:
-                                                            print("Tranjaction canceled")
+                        
+                                                            case 2:
+                                                                print("Tranjaction canceled")
 
-                                                        case _:
-                                                            raise InputnotMatchError("Invelid Choice Input\n1.Confirm2.Cancel")
+                                                            case _:
+                                                                raise InputnotMatchError("Invelid Choice Input\n1.Confirm2.Cancel")
 
-                                                except ValueError:
-                                                    print("Invelid Choice Input\n1.Confirm2.Cancel")
-                                                
-                                                except InputnotMatchError as ipe:
-                                                    print(ipe)
-                                                
+                                                    except ValueError:
+                                                        print("Invelid Choice Input\n1.Confirm2.Cancel")
+                                                    
+                                                    except InputnotMatchError as ipe:
+                                                        print(ipe)
+                                                    
+                                                else:
+                                                    print("Invelid Account Number")
                                             else:
-                                                print("Invelid Account Number")
-                                        
+                                                print("This action can't perform")
+
                                         except ValueError:
                                             print("Invelid Account Number")
 
