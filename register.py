@@ -1,6 +1,5 @@
 #USER REGISTRATION SIGNIN, SIGNUP AND DELETE ACCOUNT
-
-# from database import * 
+ 
 from decimal import Decimal
 import random
 from customer import *
@@ -9,39 +8,38 @@ from bank import *
 
 #SIGN-UP CREATE NEW CUSTOMER RECORD
 def signup():
-    username=input("Create Username:")
+    username=input("Enter a username: ")
     cur.execute(f"SELECT username FROM customers WHERE username='{username}';")
     temp=cur.fetchall()
     if temp:
-        print("User is Already Exists")
+        print("Username already exists")
         signup()
     else:
-        print("User name is Avelaible")
-        password=input("Create Password:")
-        name=input("Enter your Name:")
+        print("Username is available")
+        password=input("Create a password: ")
+        name=input("Enter your name: ")
         try:
-            age=int(input("Enter Age:"))
-            address=input("Enter City:")
+            age=int(input("Enter your age: "))
+            address=input("Enter your city: ")
 
             while True:
                 try:
-                    balance=float(input("Enter Diposit Ammount:"))
+                    balance=float(input("Enter deposit amount: "))
                     if balance>0:
                         balance=Decimal(balance)
                         break
                     else:
-                        print("Invelid Deposit Amount")
-                        print("Enter Velid Amount")
+                        print("Invalid deposit amount. Enter a value greater than 0.")
 
                 except ValueError:
-                    print("Invelid Deposit")
+                    print("Invalid deposit input")
 
             while True:
-                secure_pin=input("Enter Six digit Secure pin(This Usefull For Account Security):")
+                secure_pin=input("Enter a 6-digit secure PIN: ")
                 if len(secure_pin)==6:
                     break
                 else:
-                    print("%s is not six digit"%(secure_pin))
+                    print(f"{secure_pin} is not a 6-digit PIN")
 
             while True:
                 account_number=random.randint(10000000,99999999)
@@ -64,16 +62,18 @@ def signup():
                     break
 
         except ValueError:
-            print("Invelid Input Age")
+            print("Invalid input for age")
         
         else:
-            print("Sign-Up Sucessfull")
+            print("Sign-up successful")
+            print("Account created successfully")
+            print(f"Your account number is: {account_number}")
         
         
 
 #SIGN-IN LOGIN TO BANK
 def signin():
-    username=input("Enter Username:")
+    username=input("Enter username: ")
 
     cur.execute(f"SELECT status FROM customers WHERE username='{username}';")
     status=cur.fetchall()
@@ -87,33 +87,33 @@ def signin():
     if status:
         c=1
         while c<=3:
-            password=input("Enter Password:")
+            password=input("Enter password: ")
             if temp_password[0][0]==password:
-                print("LOGIN SUCESFULL")
+                print("Login successful")
                 cur.execute(f"SELECT name FROM customers WHERE password='{password}';")
                 name=cur.fetchall()[0][0].upper()
-                print("WELCOME {} TO YOUR ACCOUNT".format(name))
+                print(f"Welcome to your account, {name}")
                 return username
             else:
                 c+=1
-                print("Incorect Password")
+                print("Incorrect password")
     else:
-        print("Invelid Username")
+        print("Invalid username")
 
 #DELETE ACCOUNT
 def deleteaccount(user_name):
-    username=input("Enter Your Username:")
+    username=input("Enter your username: ")
     if user_name==username:
-        password=input("Enter Password:")
+        password=input("Enter your password: ")
         cur.execute(f"SELECT password FROM customers WHERE username='{user_name}';")
         temp_password=cur.fetchall()[0][0]
         if password==temp_password:
             cur.execute(f"UPDATE customers SET status=0 WHERE username='{user_name}';")
             mydb.commit()
         else:
-            print("Incorect Password")
+            print("Incorrect password")
     else:
-        print("Invelid Username")
+        print("Invalid username")
         
                 
 

@@ -22,7 +22,7 @@ class Bank:
     def checkbalance(self,account_number):
         cur.execute(f"SELECT balance FROM customers WHERE account_number='{account_number}';")
         balance=cur.fetchall()[0][0]
-        print("Avelaible Balance:",balance)
+        print(f"Available balance: {balance}")
         
     #USER DIPOSIT METHOD
     def deposit(self,account_number,amount):
@@ -36,13 +36,13 @@ class Bank:
             #insert record username_ebook
             cur.execute(f"INSERT INTO {self.__username}_ebook VALUES('{today_date}','{today_time}','CR BANK OF ODISHA','','{amount}','{balance}');")
             
-            print("Deposit Sucessfull")
+            print("Deposit successful")
             self.checkbalance(account_number)
 
             mydb.commit()
 
         else:
-            print("Invelid Deposit Amount")
+            print("Invalid deposit amount")
 
     #USER WIDROW METHOD 
     def widrow(self,account_number,amount):
@@ -57,15 +57,15 @@ class Bank:
                 #insert record username_ebook
                 cur.execute(f"INSERT INTO {self.__username}_ebook VALUES('{today_date}','{today_time}','DR BANK OF ODISHA','{amount}','','{balance}');")
 
-                print("Widrow Sucessfull")
+                print("Withdrawal successful")
                 self.checkbalance(account_number)
 
                 mydb.commit()
             else:
-                print("Insufficient Balance")
+                print("Insufficient balance")
 
         else:
-            print("Invelid Withdraw Amount")
+            print("Invalid withdrawal amount")
     
     #USER TRANSFER MONEY METHOD TO ANOTHER USER
     def transferfund(self,receiver_account_number,receiver_name,sender_account_number,amount):
@@ -100,18 +100,18 @@ class Bank:
                 #insert record username_ebook for receiver
                 cur.execute(f"INSERT INTO {receiver_username}_ebook VALUES('{today_date}','{today_time}','RECIVE FROM {sender_name} Account Number:{sender_account_number}','','{amount}','{receiver_balance}');")
 
-                print("Transfer Sucessfull")
+                print("Transfer successful")
                 self.checkbalance(sender_account_number)
 
                 mydb.commit()
             else:
-                print("Insufficient Balance")
+                print("Insufficient balance")
         else:
-            print("Invelid Amount")
+            print("Invalid amount")
     
     #USER SHOW ACCOUNT DETAILS
     def showcustomerdetails(self):
-        print("BANK NAME:BANK OF ODISHA")
+        print("BANK NAME: Bank of Odisha")
         cur.execute(f"SELECT * FROM customers WHERE username='{self.__username}';")
         customer_details=cur.fetchall()
         print("USERNAME:",customer_details[0][0])
@@ -125,7 +125,7 @@ class Bank:
     def transactionhistory(self):
         cur.execute(f"SELECT * FROM {self.__username}_ebook")
         t_history=cur.fetchall()
-        list_dataheader=["Date:","Time:","Particular:","Diposit","Withdraw:","Balance:"]
+        list_dataheader=["Date: ","Time: ","Particular: ","Withdraw: ","Deposit: ","Balance: "]
         for th in t_history:
             for real_th,ld in zip(th,list_dataheader):#zip function is use to combine two itreables
                 real_th=str(real_th)

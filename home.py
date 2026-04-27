@@ -1,5 +1,5 @@
-
-print("WELCOME TO BANK OF ODISHA")
+print()
+print("=== Welcome to Bank of Odisha ===")
 print()
 
 from database import *
@@ -16,7 +16,7 @@ class InputnotMatchError(Exception):
     
 while True:
     try:
-        register=int(input("1. Sign Up\n2. Sign In\n\n"))
+        register=int(input("1. Sign Up\n2. Sign In\n\nEnter your choice: "))
 
         if register==1 or register==2:
             if register==1:
@@ -31,7 +31,7 @@ while True:
                     b_obj=Bank(username)#so that user can get different fecilities
 
                     try:
-                        choice=int(input("1. BALANCE\n2. DEPOSIT\n3. WITHDRAW\n4. TRANSFER FUNDS\n5. ACCOUNT DETAILS\n6. DELETE ACCOUNT\n7. TRANSACTION HISTORY\n"))
+                        choice=int(input("\n=== Select an Option ===\n1. Check Balance\n2. Deposit Money\n3. Withdraw Money\n4. Transfer Funds\n5. Account Details\n6. Delete Account\n7. Transaction History\n\nEnter your choice: "))
 
                         cur.execute(f"SELECT account_number FROM customers WHERE username='{username}';")
                         temp_account_number=cur.fetchall()[0][0]
@@ -44,118 +44,118 @@ while True:
                             case 1:
                                 #check balance
                                 try:
-                                    secure_pin=int(input("Enter Secure Pin:"))
+                                    secure_pin=int(input("Enter secure PIN: "))
                                     if temp_secure_pin==secure_pin:
                                         b_obj.checkbalance(temp_account_number)
                                     else:
-                                        print("Incorrect Secure PIN\nEnter your six-digit secure PIN")
+                                        print("Incorrect secure PIN.\nPlease enter your 6-digit secure PIN.")
 
                                 except ValueError:
-                                    print("Incorrect Secure PIN\nEnter your six-digit secure PIN")
+                                    print("Incorrect secure PIN.\nPlease enter your 6-digit secure PIN.")
                                 
 
 
                             case 2:
                                 #deposit
                                 try:
-                                    secure_pin=int(input("Enter Secure Pin:"))
+                                    secure_pin=int(input("Enter secure PIN: "))
                                     if temp_secure_pin==secure_pin:
 
                                         try:
-                                            amount=Decimal(input("Enter Deposit Amount:"))
+                                            amount=Decimal(input("Enter deposit amount: "))
                                             b_obj.deposit(temp_account_number,amount)
                                         except InvalidOperation:
-                                            print("Invelid Deposit Amount")
+                                            print("Invalid deposit amount.")
 
                                     else:
-                                        print("Incorrect Secure Pin\nEnter Your Six digit Secure Pin")
+                                        print("Incorrect secure PIN.\nPlease enter your 6-digit secure PIN.")
                                 
                                 except ValueError:
-                                    print("Incorrect Secure Pin\nEnter Your Six digit Secure Pin")
+                                    print("Incorrect secure PIN.\nPlease enter your 6-digit secure PIN.")
 
 
                             case 3:
                                 #widrow
                                 try:
-                                    secure_pin=int(input("Enter Secure Pin:"))
+                                    secure_pin=int(input("Enter secure PIN: "))
                                     if temp_secure_pin==secure_pin:
 
                                         try:
-                                            amount=Decimal(input("Enter Amount:"))
+                                            amount=Decimal(input("Enter withdrawal amount: "))
                                             b_obj.widrow(temp_account_number,amount)
                                         except InvalidOperation:
-                                            print("Invelid Withdraw Amount")
+                                            print("Invalid withdrawal amount.")
 
                                     else:
-                                        print("Incorrect Secure Pin\nEnter Your Six digit Secure Pin")
+                                        print("Incorrect secure PIN.\nPlease enter your 6-digit secure PIN.")
                                 except ValueError:
-                                    print("Incorrect Secure Pin\nEnter Your Six digit Secure Pin")
+                                    print("Incorrect secure PIN.\nPlease enter your 6-digit secure PIN.")
                                 
 
 
                             case 4:
                                 #transfer fund
                                 try:
-                                    secure_pin=int(input("Enter Secure Pin:"))
+                                    secure_pin=int(input("Enter secure PIN: "))
                                     if temp_secure_pin==secure_pin:
 
                                         try:
-                                            reciver_account_number=int(input("Enter Reciver Account Number:"))
+                                            reciver_account_number=int(input("Enter receiver account number: "))
                                             if temp_account_number!=reciver_account_number:
                                                 cur.execute(f"SELECT account_number FROM customers WHERE account_number='{reciver_account_number}';")
                                                 temp=cur.fetchall()
                                                 if temp:
                                                     cur.execute(f"SELECT name FROM customers WHERE account_number='{reciver_account_number}';")
                                                     receiver_name=cur.fetchall()[0][0]
-                                                    print("Receiver Name:",receiver_name)
+                                                    print("Receiver name:", receiver_name)
 
                                                     try:
-                                                        choice=int(input("1.Confirm\n2.Cancel\n"))
+                                                        choice=int(input("1. Confirm\n2. Cancel\n\nEnter your choice: "))
                                                         match choice:
                                                             case 1:
 
                                                                 try:
-                                                                    amount=Decimal(input("Enter Amount:"))
+                                                                    amount=Decimal(input("Enter transfer amount: "))
 
                                                                     try:
-                                                                        secure_pin=int(input("Enter Secure Pin:"))
+                                                                        secure_pin=int(input("Enter secure PIN: "))
                                                                         if temp_secure_pin==secure_pin:
                                                                             b_obj.transferfund(reciver_account_number,receiver_name,temp_account_number,amount)
                                                                         else:
-                                                                            print("Incorrect Secure Pin\nEnter Your Six digit Secure Pin")
+                                                                            print("Incorrect secure PIN.\nPlease enter your 6-digit secure PIN.")
                                                                     
                                                                     except ValueError:
-                                                                        print("Incorrect Secure Pin\nEnter Your Six digit Secure Pin")
+                                                                        print("Incorrect secure PIN.\nPlease enter your 6-digit secure PIN.")
 
                                                                 except InvalidOperation:
                                                                     print("Invelid Amount")
 
                         
                                                             case 2:
-                                                                print("Tranjaction canceled")
+                                                                print("Transaction cancelled.")
 
                                                             case _:
-                                                                raise InputnotMatchError("Invelid Choice Input\n1.Confirm2.Cancel")
+                                                                raise InputnotMatchError("Invalid choice input.\n1. Confirm\n2. Cancel")
 
                                                     except ValueError:
-                                                        print("Invelid Choice Input\n1.Confirm2.Cancel")
+                                                        print("Invalid choice input.\n1. Confirm\n2. Cancel")
                                                     
                                                     except InputnotMatchError as ipe:
                                                         print(ipe)
                                                     
                                                 else:
-                                                    print("Invelid Account Number")
+                                                    print("Invalid account number.")
                                             else:
-                                                print("This action can't perform")
+                                                print("This action cannot be performed.")
 
                                         except ValueError:
                                             print("Invelid Account Number")
 
                                     else:
-                                        print("Incorrect Secure Pin\nEnter Your Six digit Secure Pin")
+                                        print("Incorrect secure PIN.\nPlease enter your 6-digit secure PIN.")
 
                                 except ValueError:
-                                    print("Incorrect Secure Pin\nEnter Your Six digit Secure Pin")
+                                    print("Incorrect secure PIN.\nPlease enter your 6-digit secure PIN.")
 
 
                             case 5:
@@ -174,11 +174,11 @@ while True:
 
 
                             case _:
-                                raise InputnotMatchError("1. BALANCE\n2. DEPOSIT\n3. WITHDRAW\n4. TRANSFER FUNDS\n5. ACCOUNT DETAILS\n6. DELETE ACCOUNT\n7. TRANSACTION HISTORY\n")
+                                raise InputnotMatchError("Invalid choice input.\n1. Balance\n2. Deposit\n3. Withdraw\n4. Transfer Funds\n5. Account Details\n6. Delete Account\n7. Transaction History")
                             
                     
                     except ValueError as ve:
-                        print("1. BALANCE\n2. DEPOSIT\n3. WITHDRAW\n4. TRANSFER FUNDS\n5. ACCOUNT DETAILS\n6. DELETE ACCOUNT\n7. TRANSACTION HISTORY\n")
+                        print("1. Check Balance\n2. Deposit Money\n3. Withdraw Money\n4. Transfer Funds\n5. Account Details\n6. Delete Account\n7. Transaction History")
                     
                     except InputnotMatchError as ipe:
                         print(ipe)
@@ -189,13 +189,13 @@ while True:
     except ValueError:
         print("Invelid Input")
         print()
-        print("Enter 1 for Sign-up\nEnter 2 for Sign-in")
+        print("1. Sign Up\n2. Sign In")
         break
 
     except InputnotMatchError as ipe:
         print(ipe)
         print()
-        print("Enter 1 for Sign-up\nEnter 2 for Sign-in")
+        print("1. Sign Up\n2. Sign In")
         break
 
     # except:
