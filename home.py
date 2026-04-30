@@ -105,44 +105,49 @@ while True:
                                                 cur.execute(f"SELECT account_number FROM customers WHERE account_number='{reciver_account_number}';")
                                                 temp=cur.fetchall()
                                                 if temp:
-                                                    cur.execute(f"SELECT name FROM customers WHERE account_number='{reciver_account_number}';")
-                                                    receiver_name=cur.fetchall()[0][0]
-                                                    print("Receiver name:", receiver_name)
+                                                    cur.execute(f"SELECT status FROM customers WHERE account_number='{reciver_account_number}'; ")
+                                                    status=cur.fetchall()[0][0]
 
-                                                    try:
-                                                        choice=int(input("1. Confirm\n2. Cancel\n\nEnter your choice: "))
-                                                        match choice:
-                                                            case 1:
+                                                    if status:
+                                                        cur.execute(f"SELECT name FROM customers WHERE account_number='{reciver_account_number}';")
+                                                        receiver_name=cur.fetchall()[0][0]
+                                                        print("Receiver name:", receiver_name)
 
-                                                                try:
-                                                                    amount=Decimal(input("Enter transfer amount: "))
+                                                        try:
+                                                            choice=int(input("1. Confirm\n2. Cancel\n\nEnter your choice: "))
+                                                            match choice:
+                                                                case 1:
 
                                                                     try:
-                                                                        secure_pin=int(input("Enter secure PIN: "))
-                                                                        if temp_secure_pin==secure_pin:
-                                                                            b_obj.transferfund(reciver_account_number,receiver_name,temp_account_number,amount)
-                                                                        else:
+                                                                        amount=Decimal(input("Enter transfer amount: "))
+
+                                                                        try:
+                                                                            secure_pin=int(input("Enter secure PIN: "))
+                                                                            if temp_secure_pin==secure_pin:
+                                                                                b_obj.transferfund(reciver_account_number,receiver_name,temp_account_number,amount)
+                                                                            else:
+                                                                                print("Incorrect secure PIN.\nPlease enter your 6-digit secure PIN.")
+                                                                        
+                                                                        except ValueError:
                                                                             print("Incorrect secure PIN.\nPlease enter your 6-digit secure PIN.")
-                                                                    
-                                                                    except ValueError:
-                                                                        print("Incorrect secure PIN.\nPlease enter your 6-digit secure PIN.")
 
-                                                                except InvalidOperation:
-                                                                    print("Invelid Amount")
+                                                                    except InvalidOperation:
+                                                                        print("Invelid Amount")
 
-                        
-                                                            case 2:
-                                                                print("Transaction cancelled.")
+                            
+                                                                case 2:
+                                                                    print("Transaction cancelled.")
 
-                                                            case _:
-                                                                raise InputnotMatchError("Invalid choice input.\n1. Confirm\n2. Cancel")
+                                                                case _:
+                                                                    raise InputnotMatchError("Invalid choice input.\n1. Confirm\n2. Cancel")
 
-                                                    except ValueError:
-                                                        print("Invalid choice input.\n1. Confirm\n2. Cancel")
-                                                    
-                                                    except InputnotMatchError as ipe:
-                                                        print(ipe)
-                                                    
+                                                        except ValueError:
+                                                            print("Invalid choice input.\n1. Confirm\n2. Cancel")
+                                                        
+                                                        except InputnotMatchError as ipe:
+                                                            print(ipe)
+                                                    else:
+                                                        print("Invalid account number.")
                                                 else:
                                                     print("Invalid account number.")
                                             else:
@@ -198,10 +203,10 @@ while True:
         print("1. Sign Up\n2. Sign In")
         break
 
-    # except:
-    #     print("\nFailed")
-    #     print()
-    #     break
+    except:
+        print("\nFailed")
+        print()
+        break
     
     finally:
         print("--o--")
